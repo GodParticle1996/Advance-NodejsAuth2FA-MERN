@@ -126,7 +126,7 @@ export class AuthController {
     async (req: Request, res: Response): Promise<any> => {
       const body = resetPasswordSchema.parse(req.body);
 
-      await this.authService.resePassword(body);
+      await this.authService.resetPassword(body);
 
       return clearAuthenticationCookies(res).status(HTTPSTATUS.OK).json({
         message: "Reset Password successfully",
@@ -136,7 +136,7 @@ export class AuthController {
 
   public logout = asyncHandler(
     async (req: Request, res: Response): Promise<any> => {
-      const sessionId = req.sessionId;
+      const sessionId = (req as any).sessionId;
       if (!sessionId) {
         throw new NotFoundException("Session is invalid.");
       }

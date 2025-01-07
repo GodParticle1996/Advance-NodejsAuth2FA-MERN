@@ -295,7 +295,7 @@ export class AuthService {
     };
   }
 
-  public async resePassword({ password, verificationCode }: resetPasswordDto) {
+  public async resetPassword({ password, verificationCode }: resetPasswordDto) {
     const validCode = await VerificationCodeModel.findOne({
       code: verificationCode,
       type: VerificationEnum.PASSWORD_RESET,
