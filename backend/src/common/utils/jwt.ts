@@ -58,3 +58,7 @@ export const verifyJwtToken = <TPayload extends object = AccessTPayload>(
     };
   }
 };
+
+/*
+Whatever we have encoded in the signJwtToken(), that same payload we have to decode in the verifyJwtToken(). We need to decode the payload to get the sessionId and userId.
+*/

@@ -33,6 +33,11 @@ import {
   threeMinutesAgo,
 } from "../../common/utils/date-time";
 import { hashValue } from "../../common/utils/bcrypt";
+import { sendEmail } from "../../mailers/mailer";
+import {
+  passwordResetTemplate,
+  verifyEmailTemplate,
+} from "../../mailers/templates/template";
 
 export class AuthService {
   public async register(registerData: RegisterDto) {
@@ -209,7 +214,7 @@ export class AuthService {
     const validCode = await VerificationCodeModel.findOne({
       code: code,
       type: VerificationEnum.EMAIL_VERIFICATION,
-      // Here we only look for the code that is not expired
+      // Here we only look for the code that is not expired. If the expiration time is > current time, then it is not expired and we find any such code
       expiresAt: { $gt: new Date() },
     });
 
