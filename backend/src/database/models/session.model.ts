@@ -9,6 +9,10 @@ export interface SessionDocument extends Document {
 }
 
 const sessionSchema = new Schema<SessionDocument>({
+  /*
+  When you see ref: "User", it tells MongoDB that the userId field contains an ID that points to a document in the "User" collection. This is why the .populate("userId") method 
+  in the getSessionById function works - it uses this reference to automatically fetch the complete user information instead of just having the ID.
+  */
   userId: {
     type: Schema.Types.ObjectId,
     ref: "User",
