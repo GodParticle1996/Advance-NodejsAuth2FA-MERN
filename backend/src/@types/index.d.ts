@@ -24,4 +24,46 @@ The magic happens because:
 3. You don't need to explicitly import these types - they're available globally
 4. This is why req.user?.id works in session.controller.ts without additional imports
 5. This pattern is commonly used to augment existing libraries' type definitions with custom properties your application needs.
+
+Creating a userReducer for React state management with a Global typescript interface
+declare global {
+  interface GlobalReducerEvent {
+    LOG_IN: {
+        username: string
+    }
+  }
+}
+
+export type GlobalReducer<TState> = (
+  state: TState,
+  event: {
+    [EventType in keyof GlobalReducerEvent]: {
+      type: EventType
+    } & GlobalReducerEvent[EventType]
+  }[keyof GlobalReducerEvent]
+) => TState
+
+export const userReducer: GlobalReducer<{ id: string }> = (
+  state,
+  event
+) => {
+event
+  return state
+}
+
+declare global {
+  interface GlobalReducerEvent {
+    LOG_IN: { userId: string }; 
+  }
+}
+
+export const userReducer: GlobalReducer<{ id: string; name?: string }> = (
+  state,
+  event
+) => {
+  if (event.type === 'LOG_IN') {
+    return { ...state, id: event.userId, name: 'Guest' }; // Use event.userId
+  }
+  return state;
+};
 */
