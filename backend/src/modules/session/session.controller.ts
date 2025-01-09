@@ -1,9 +1,9 @@
+import { z } from "zod";
 import { Request, Response } from "express";
-import { asyncHandler } from "../../middlewares/asyncHandler";
 import { SessionService } from "./session.service";
 import { HTTPSTATUS } from "../../config/http.config";
+import { asyncHandler } from "../../middlewares/asyncHandler";
 import { NotFoundException } from "../../common/utils/catch-errors";
-import { z } from "zod";
 
 export class SessionController {
   private sessionService: SessionService;
@@ -48,7 +48,7 @@ export class SessionController {
 
   public deleteSession = asyncHandler(async (req: Request, res: Response) => {
     const sessionId = z.string().parse(req.params.id);
-    const userId = req.user?.id;
+    const userId = req.user ? req.user.id : null;
     await this.sessionService.deleteSession(sessionId, userId);
 
     return res.status(HTTPSTATUS.OK).json({
